@@ -11,4 +11,4 @@ A JGraphT graph object does not allow duplicate vertices, nor duplicate edges. T
 
 #### 2. Why not contribute to JGraphT?
 
-I did consider this, but the class hierarchy of JGraphT and its implementation was too complex and I really didn't like the complex design of the classes. Also, some basic design decision had to be changed (like the model of an Edge) which simply wasn't compatible with the current design of JGraphT.
+I did consider this, but the class hierarchy of JGraphT and its implementation was too complex and I really didn't like the complex design of the classes. Also, some basic design choices had to be changed (like the model of an Edge) which simply wasn't compatible with the current design of JGraphT.
