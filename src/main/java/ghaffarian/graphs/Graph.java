@@ -164,16 +164,26 @@ public interface Graph<V,E> {
     public boolean containsVertex(V v);
 
     /**
+     * Check if this graph contains all edges in the given set.
+     */
+    public boolean containsAllEdges(Set<Edge<V, E>> vset);
+
+    /**
+     * Check if this graph contains all vertices in the given set.
+     */
+    public boolean containsAllVertices(Set<V> vset);
+
+    /**
      * Check if this graph is a subgraph of the given base graph.
      */
-    public boolean isSubgraphOf(AbstractGraph<V, E> base);
+    public boolean isSubgraphOf(Graph<V, E> base);
 
     /**
      * Check if this graph is a proper subgraph of the given base graph.
      * A proper subgraph is a subgraph which is not equal to the base graph.
      * A proper subgraph lacks at least one vertex or edge compared to the base.
      */
-    public boolean isProperSubgraphOf(AbstractGraph<V, E> base);
+    public boolean isProperSubgraphOf(Graph<V, E> base);
 
     /**
      * Check whether this graph is connected or not.
