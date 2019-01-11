@@ -15,7 +15,7 @@ public class GraphsTests {
     
     @Test
     public void dotWriterTest() throws IOException {
-        Graph<String, String> graph = new Graph<>(true);
+        Graph<String, String> graph = new Digraph<>();
         // add vertices
         String  v1 = "V1-test",
                 v2 = "V2-test",
@@ -49,9 +49,9 @@ public class GraphsTests {
     @Test
     public void dotReaderTest() throws IOException {
         // read graph from DOT file
-        Graph<String,String> graph = GraphReader.readDOT("src/test/resources/read_test_1.dot");
+        Graph<String, String> graph = GraphReader.readDOT("src/test/resources/read_test_1.dot");
         // check directed/undirected property
-        assertTrue(graph.IS_DIRECTED);
+        assertTrue(graph.isDirected());
         // vertices
         String  v1 = "V1-test",
                 v2 = "V2-test",
@@ -78,8 +78,8 @@ public class GraphsTests {
     @Test
     public void subGraphTest() throws IOException {
         // read graphs from DOT file
-        Graph<String,String> cfg = GraphReader.readDOT("src/test/resources/CFG.dot");
-        Graph<String,String> sub = GraphReader.readDOT("src/test/resources/sub-CFG.dot");
+        Graph<String, String> cfg = GraphReader.readDOT("src/test/resources/CFG.dot");
+        Graph<String, String> sub = GraphReader.readDOT("src/test/resources/sub-CFG.dot");
         // assertion
         assertTrue(sub.isSubgraphOf(cfg));
         assertFalse(cfg.isSubgraphOf(sub));

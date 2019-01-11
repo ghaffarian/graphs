@@ -53,7 +53,10 @@ public class GraphReader {
 		try (BufferedReader dot = new BufferedReader(new FileReader(filePath))) {
             // read graph type
             String line = dot.readLine().trim();
-            graph = new Graph(line.startsWith("digraph"));
+            if (line.startsWith("digraph"))
+                graph = new Digraph();
+            else
+                graph = new UndiGraph();
             // skip any blank lines
             while (!(line = dot.readLine()).trim().equals("// graph-vertices")) { /* NOP! */ }
             // read graph vertices

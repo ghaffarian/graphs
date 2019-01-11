@@ -30,7 +30,7 @@ public class GraphWriter {
 		try (PrintWriter dot = new PrintWriter(filePath, "UTF-8")) {
             String edgeSymbol;
             String graphName = filename.substring(0, filename.lastIndexOf('.'));
-            if (graph.IS_DIRECTED) {
+            if (graph.isDirected()) {
                 dot.println("digraph " + graphName + " {");
                 edgeSymbol = " -> ";
             } else {
