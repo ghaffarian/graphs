@@ -1,8 +1,12 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -52,6 +56,16 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
     }
     
     @Override
+    public boolean addGraph(AbstractGraph<V,E> graph) {
+        boolean modified = false;
+        for (V vrtx: graph.allVertices)
+            modified |= addVertex(vrtx);
+        for (Edge<V,E> edge: graph.allEdges)
+            modified |= addEdge(edge);
+        return modified;
+    }
+    
+    @Override
     public int getInDegree(V v) {
         if (inEdges.get(v) == null)
             throw new IllegalArgumentException("No such vertex in this graph!");
@@ -66,12 +80,52 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
     }
     
     @Override
-    public boolean isSubgraphOf(AbstractGraph<V,E> base) {
+    public Set<Edge<V, E>> getEdgesWithLabel(E label) {
+        Set<Edge<V, E>> edges = new LinkedHashSet<>();
+        if (label == null) {
+            for (Edge e: allEdges) {
+                if (e.label == null)
+                    edges.add(e);
+            }
+        } else {
+            for (Edge e: allEdges) {
+                if (label.equals(e.label))
+                    edges.add(e);
+            }
+        }
+        return edges;
+    }
+    
+    @Override
+    public boolean containsVertex(V v) {
+        return allVertices.contains(v);
+    }
+    
+    @Override
+    public boolean containsAllEdges(Set<Edge<V, E>> set) {
+        for (Edge<V, E> edge: set) {
+            if (!containsEdge(edge))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean containsAllVertices(Set<V> set) {
+        for (V v: set) {
+            if (!containsVertex(v))
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isSubgraphOf(Graph<V,E> base) {
         if (isDirected() != base.isDirected())
             return false;
         if (this.vertexCount() > base.vertexCount() || this.edgeCount() > base.edgeCount())
             return false;
-        if (base.allVertices.containsAll(this.allVertices)) {
+        if (base.containsAllVertices(this.allVertices)) {
             for (Edge<V,E> edge: this.allEdges)
                 if (!base.containsEdge(edge))
                     return false;
@@ -81,12 +135,33 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
     }
     
     @Override
-    public boolean isProperSubgraphOf(AbstractGraph<V,E> base) {
+    public boolean isProperSubgraphOf(Graph<V,E> base) {
         if (this.vertexCount() == base.vertexCount() && this.edgeCount() == base.edgeCount())
             return false;
         return isSubgraphOf(base);
     }
     
+    @Override
+    public boolean isConnected() {
+        Set<V> visited = new HashSet<>();
+        Deque<V> visiting = new ArrayDeque<>();
+        visiting.add(allVertices.iterator().next());
+        while (!visiting.isEmpty()) {
+            V next = visiting.remove();
+            visited.add(next);
+            for (Edge<V,E> out: outEdges.get(next)) {
+                if (!visited.contains(out.target))
+                    visiting.add(out.target);
+            }
+            for (Edge<V,E> in: inEdges.get(next)) {
+                if (!visited.contains(in.source))
+                    visiting.add(in.source);
+            }
+        }
+        return visited.size() == allVertices.size();
+        // return visited.containsAll(allVertices);
+    }
+
     /**
      * Returns a one-line string representation of this graph object.
      */
