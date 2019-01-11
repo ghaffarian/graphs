@@ -1,9 +1,6 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -137,16 +134,6 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
     }
     
     @Override
-    public boolean addGraph(AbstractGraph<V,E> graph) {
-        boolean modified = false;
-        for (V vrtx: graph.allVertices)
-            modified |= addVertex(vrtx);
-        for (Edge<V,E> edge: graph.allEdges)
-            modified |= addEdge(edge);
-        return modified;
-    }
-    
-    @Override
     public Set<Edge<V,E>> copyEdgeSet() {
         return new LinkedHashSet<>(allEdges);
     }
@@ -171,16 +158,6 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
     }
     
     @Override
-    public Set<Edge<V,E>> getEdgesWithLabel(E label) {
-        Set<Edge<V,E>> edges = new LinkedHashSet<>();
-        for (Edge e: allEdges) {
-            if (label.equals(e.label))
-                edges.add(e);
-        }
-        return edges;
-    }
-    
-    @Override
     public boolean containsEdge(Edge<V,E> e) {
         return allEdges.contains(e);
     }
@@ -192,31 +169,5 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
                 return true;
         }
         return false;
-    }
-    
-    @Override
-    public boolean containsVertex(V v) {
-        return allVertices.contains(v);
-    }
-    
-    @Override
-    public boolean isConnected() {
-        Set<V> visited = new HashSet<>();
-        Deque<V> visiting = new ArrayDeque<>();
-        visiting.add(allVertices.iterator().next());
-        while (!visiting.isEmpty()) {
-            V next = visiting.remove();
-            visited.add(next);
-            for (Edge<V,E> out: outEdges.get(next)) {
-                if (!visited.contains(out.target))
-                    visiting.add(out.target);
-            }
-            for (Edge<V,E> in: inEdges.get(next)) {
-                if (!visited.contains(in.source))
-                    visiting.add(in.source);
-            }
-        }
-        return visited.size() == allVertices.size();
-        // return visited.containsAll(allVertices);
     }
 }
