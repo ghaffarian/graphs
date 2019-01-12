@@ -14,7 +14,8 @@ import java.util.Set;
 /**
  * A generic abstract base class for labeled graphs.
  * In Graph-Theory, the mathematical definition of a graphs is 
- * a set of vertices and a set of edges where each edge.
+ * a set of vertices and a set of edges where each edge connects two vertices.
+ * A labeled graph includes some extra data associated with each vertex and edge.
  * 
  * @author Seyed Mohammad Ghaffarian
  */
