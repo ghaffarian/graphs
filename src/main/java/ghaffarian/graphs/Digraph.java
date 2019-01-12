@@ -7,7 +7,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * A generic class for labeled digraphs (directed graphs).
+ * A generic class for labeled digraphs (directed graphs),
+ * also known as Property Graphs.
  * 
  * @author Seyed Mohammad Ghaffarian
  */

@@ -1,7 +1,6 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
-import ghaffarian.graphs.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,10 +18,10 @@ import java.util.Map;
 public class GraphReader {
     
     /**
-     * Reads the contents of a given directory and 
+     * Reads any DOT files inside the given directory and returns a list of graph objects.
      * 
-     * @param dirPath
-     * @return
+     * @param dirPath path of the directory to read
+     * @return        list of graphs generated from DOT files inside the given directory
      */
     public static List<Graph<String, String>> readDotDataset(String dirPath) throws IOException  {
         File dir = new File(dirPath);
@@ -41,7 +40,9 @@ public class GraphReader {
     /**
      * Reads a DOT file and returns a single graph represented in the file.
      * Note that this method cannot read the general DOT language;
-     * but only a small subset as written by the `GraphWriter.writeDOT(...)` method.
+     * but only a small subset as written by the
+     * {@link GraphWriter#writeDOT(ghaffarian.graphs.Graph, java.lang.String) 
+     *  {@code GraphWriter.writeDOT(graph, path)}} method.
      * 
      * @param filePath  path of the DOT file to read
      * @return          graph object constructed from the given DOT file
@@ -93,7 +94,8 @@ public class GraphReader {
     }
     
     /**
-     * Reads a DOT file and returns a single graph represented in the file.
+     * Reads a JSON file and returns a single graph represented in the file.
+     * 
      * NOT IMPLEMENTED YET!
      * 
      * @param filePath  path of the JSON file to read

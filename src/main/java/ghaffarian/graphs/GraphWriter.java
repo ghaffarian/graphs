@@ -1,7 +1,6 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
-import ghaffarian.graphs.*;
 import ghaffarian.graphs.utils.*;
 import java.io.File;
 import java.io.IOException;
@@ -11,17 +10,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Writes graph objects to various output sources.
+ * Writes graph objects to various output formats.
  * 
  * @author Seyed Mohammad Ghaffarian
  */
 public class GraphWriter {
     
     /**
+     * Writes a given graph object to a file in DOT format.
      * 
-     * @param graph
-     * @param filePath
-     * @throws IOException 
+     * @param graph     the graph object to be written
+     * @param filePath  the path of the file to write to
      */
     public static <V,E> void writeDOT(Graph<V,E> graph, String filePath) throws IOException {
         if (!filePath.toLowerCase().endsWith(".dot"))
@@ -66,6 +65,14 @@ public class GraphWriter {
 		}
     }
     
+    /**
+     * Writes a given graph object to a file in JSON format.
+     * 
+     * NOT IMPLEMENTED YET!
+     * 
+     * @param graph     the graph object to be written
+     * @param filePath  the path of the file to write to
+     */
     public static <V,E> void writeJSON(Graph<V,E> graph, String filePath) {
         throw new UnsupportedOperationException("Writing Graphs to JSON is NOT Implemented Yet!");
     }
