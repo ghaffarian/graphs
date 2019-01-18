@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 /**
- * Testing read/write operations on graphs.
+ * Testing graph operations.
  * 
  * @author Seyed Mohammad Ghaffarian
  */
