@@ -166,7 +166,8 @@ public class IdentityLinkedHashSet<E> implements Set<E> {
         
         @Override
         public boolean equals(Object obj) {
-            return obj != null && ELEM == obj;
+            return (obj instanceof IdentityLinkedHashSet<?>.IdentityWrapper) 
+                    && this.ELEM == ((IdentityWrapper) obj).ELEM;
         }
         
         @Override
