@@ -106,7 +106,7 @@ public class IdentityLinkedHashSet<E> implements Set<E> {
             }
             @Override
             public E next() {
-                return wrpIter.next().ELEM;
+                return (E) wrpIter.next().ELEM;
             }
             @Override
             public void remove() {
@@ -156,18 +156,17 @@ public class IdentityLinkedHashSet<E> implements Set<E> {
      * which overrides equals and hashCode in a manner
      * that only concerns object identity.
      */
-    private class IdentityWrapper {
+    private static class IdentityWrapper {
         
-        public final E ELEM;
+        public final Object ELEM;
 
-        IdentityWrapper(E elem) {
+        IdentityWrapper(Object elem) {
             this.ELEM = elem;
         }
         
         @Override
         public boolean equals(Object obj) {
-            return (obj instanceof IdentityLinkedHashSet<?>.IdentityWrapper) 
-                    && this.ELEM == ((IdentityWrapper) obj).ELEM;
+            return (obj instanceof IdentityWrapper) && this.ELEM == ((IdentityWrapper) obj).ELEM;
         }
         
         @Override
