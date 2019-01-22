@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class IdentityLinkedHashSet<E> implements Set<E> {
     
-    private LinkedHashSet<IdentityWrapper> set;
+    private final LinkedHashSet<IdentityWrapper> set;
 
     /**
      * Constructs a new, empty set with the default initial capacity (16) and load factor (0.8).
@@ -38,6 +38,7 @@ public class IdentityLinkedHashSet<E> implements Set<E> {
      * Constructs a new set which contains all the elements in the given set.
      */
     public IdentityLinkedHashSet(Set<E> set) {
+        this.set = new LinkedHashSet<>(16, 0.8f);
         for (E e: set)
             this.set.add(new IdentityWrapper(e));
     }
