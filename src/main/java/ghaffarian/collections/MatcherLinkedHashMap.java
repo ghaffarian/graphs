@@ -1,103 +1,109 @@
 /*** In The Name of Allah ***/
 package ghaffarian.collections;
 
+import ghaffarian.graphs.DefaultMatcher;
+import ghaffarian.graphs.Holder;
+import ghaffarian.graphs.Matcher;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- *
- * @author ghaffarian
+ * Hash table and linked list implementation of the <tt>Map</tt> interface, 
+ * with predictable iteration order.
+ * 
+ * This implementation differs from <tt>LinkedHashSet</tt> in that it uses 
+ * a given <tt>Matcher</tt> object to test equality and calculate hash values.
+ * 
+ * @author Seyed Mohammad Ghaffarian
  */
-public class IdentityLinkedHashMap<K, V> implements Map<K, V> {
+public class MatcherLinkedHashMap<K, V> implements Map<K, V> {
     
-    private LinkedHashMap<IdentityWrapper, V> map;
+    public final Matcher<K> matcher;
+    private final LinkedHashMap<Holder<K>, V> map;
+    
+    /**
+     * Constructs a new, empty set with the default initial capacity (16) and a default matcher.
+     */
+    public MatcherLinkedHashMap() {
+        this(16, new DefaultMatcher<K>());
+    }
 
-    public IdentityLinkedHashMap() {
+    /**
+     * Constructs a new, empty map with the given initial capacity and given matcher object.
+     */
+    public MatcherLinkedHashMap(int capacity, Matcher<K> matcher) {
+        map = new LinkedHashMap<>(capacity, 0.8f);
+        this.matcher = matcher;
     }
 
     @Override
     public V put(K key, V value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.put(new Holder<>(key, matcher), value);
     }
 
     @Override
     public void putAll(Map<? extends K, ? extends V> m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (K key: m.keySet())
+            map.put(new Holder<>(key, matcher), m.get(key));
     }
 
     @Override
     public V get(Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.get(new Holder<>((K) key, matcher));
     }
 
     @Override
     public V remove(Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.remove(new Holder<>((K) key, matcher));
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        map.clear();
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.size();
     }
 
     @Override
     public boolean isEmpty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.isEmpty();
     }
 
     @Override
     public boolean containsKey(Object key) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.containsKey(new Holder<>((K) key, matcher));
     }
 
     @Override
     public boolean containsValue(Object value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.containsValue(value);
     }
 
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Set<K> set = new MatcherLinkedHashSet<>(map.size(), matcher);
+        for (Holder<K> k: map.keySet())
+            set.add(k.object);
+        return set;
     }
 
     @Override
     public Collection<V> values() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return map.values();
     }
 
     @Override
-    public Set<Entry<K, V>> entrySet() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * Wrapper class for objects in this collection,
-     * which overrides equals and hashCode in a manner
-     * that only concerns object identity.
-     */
-    private class IdentityWrapper {
-        
-        public final K ELEM;
-
-        IdentityWrapper(K elem) {
-            this.ELEM = elem;
-        }
-        
-        @Override
-        public boolean equals(Object obj) {
-            return obj != null && this == obj;
-        }
-        
-        @Override
-        public int hashCode() {
-            return System.identityHashCode(ELEM);
-        }
+    public Set<Map.Entry<K, V>> entrySet() {
+        Set<Map.Entry<K, V>> entries = new LinkedHashSet<>(map.size());
+        for (Holder<K> k: map.keySet())
+            entries.add(new AbstractMap.SimpleImmutableEntry<>((K) k, map.get(k)));
+        return entries;
     }
 }
