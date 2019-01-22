@@ -1,9 +1,9 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
+import ghaffarian.collections.MatcherLinkedHashMap;
+import ghaffarian.collections.MatcherLinkedHashSet;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -14,14 +14,33 @@ import java.util.Set;
  */
 public class Digraph<V, E> extends AbstractGraph<V, E> {
     
+    protected final Matcher<V> VERTEX_MATCHER;
+    protected final Matcher<Edge<V, E>> EDGES_MATCHER;
+    
     /**
      * Construct a new empty Digraph object.
+     * This instance will use a default matcher.
      */
     public Digraph() {
-        allEdges = new LinkedHashSet<>(32);
-        allVertices = new LinkedHashSet<>();
-        inEdges = new LinkedHashMap<>();
-        outEdges = new LinkedHashMap<>();
+        EDGES_MATCHER = new DefaultMatcher<>();
+        VERTEX_MATCHER = new DefaultMatcher<>();
+        allEdges = new MatcherLinkedHashSet<>(32, EDGES_MATCHER);
+        allVertices = new MatcherLinkedHashSet<>(16, VERTEX_MATCHER);
+        inEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
+        outEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
+    }
+    
+    /**
+     * Construct a new empty Digraph object, 
+     * with the given <tt>Matcher</tt> objects for edges and vertices.
+     */
+    public Digraph(Matcher<V> vm, Matcher<Edge<V,E>> em) {
+        EDGES_MATCHER = em;
+        VERTEX_MATCHER = vm;
+        allEdges = new MatcherLinkedHashSet<>(32, EDGES_MATCHER);
+        allVertices = new MatcherLinkedHashSet<>(16, VERTEX_MATCHER);
+        inEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
+        outEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
     }
     
     /**
@@ -31,17 +50,19 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
      * @param graph the Graph object to be copied
      */
     public Digraph(AbstractGraph<V,E> graph) {
+        EDGES_MATCHER = graph.getEdgesMatcher();
+        VERTEX_MATCHER = graph.getVertexMatcher();
         // copy all vertices and edges
-        allEdges = new LinkedHashSet<>(graph.allEdges);
-        allVertices = new LinkedHashSet<>(graph.allVertices);
+        allEdges = new MatcherLinkedHashSet<>(graph.allEdges, EDGES_MATCHER);
+        allVertices = new MatcherLinkedHashSet<>(graph.allVertices, VERTEX_MATCHER);
         // copy incoming-edges map
-        inEdges = new LinkedHashMap<>();
+        inEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
         for (V v: graph.inEdges.keySet())
-            inEdges.put(v, new LinkedHashSet<>(graph.inEdges.get(v)));
+            inEdges.put(v, new MatcherLinkedHashSet<>(graph.inEdges.get(v), EDGES_MATCHER));
         // copy outgoing-edges map
-        outEdges = new LinkedHashMap<>();
+        outEdges = new MatcherLinkedHashMap<>(16, VERTEX_MATCHER);
         for (V v: graph.outEdges.keySet())
-            outEdges.put(v, new LinkedHashSet<>(graph.outEdges.get(v)));
+            outEdges.put(v, new MatcherLinkedHashSet<>(graph.outEdges.get(v), EDGES_MATCHER));
     }
     
     @Override
@@ -49,11 +70,22 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
         return true;
     }
     
+
+    @Override
+    protected Matcher<V> getVertexMatcher() {
+        return VERTEX_MATCHER;
+    }
+
+    @Override
+    protected Matcher<Edge<V, E>> getEdgesMatcher() {
+        return EDGES_MATCHER;
+    }
+
     @Override
     public boolean addVertex(V v) {
         if (allVertices.add(v)) {
-            inEdges.put(v, new LinkedHashSet<>());
-            outEdges.put(v, new LinkedHashSet<>());
+            inEdges.put(v, new MatcherLinkedHashSet<>(8, EDGES_MATCHER));
+            outEdges.put(v, new MatcherLinkedHashSet<>(8, EDGES_MATCHER));
             return true;
         }
         return false;
@@ -105,7 +137,7 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
         if (!allVertices.contains(trgt))
             throw new IllegalArgumentException("No such target-vertex in this graph!");
         Set<Edge<V,E>> iterSet;
-        Set<Edge<V,E>> removed = new LinkedHashSet<>();
+        Set<Edge<V,E>> removed = new MatcherLinkedHashSet<>(8, EDGES_MATCHER);
         if (inEdges.get(trgt).size() > outEdges.get(src).size()) {
             iterSet = outEdges.get(src);
             Iterator<Edge<V,E>> it = iterSet.iterator();
@@ -136,26 +168,26 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
     
     @Override
     public Set<Edge<V,E>> copyEdgeSet() {
-        return new LinkedHashSet<>(allEdges);
+        return new MatcherLinkedHashSet<>(allEdges, EDGES_MATCHER);
     }
     
     @Override
     public Set<V> copyVertexSet() {
-        return new LinkedHashSet<>(allVertices);
+        return new MatcherLinkedHashSet<>(allVertices, VERTEX_MATCHER);
     }
     
     @Override
     public Set<Edge<V,E>> copyIncomingEdges(V v) {
         if (!allVertices.contains(v))
             throw new IllegalArgumentException("No such vertex in this graph!");
-        return new LinkedHashSet<>(inEdges.get(v));
+        return new MatcherLinkedHashSet<>(inEdges.get(v), EDGES_MATCHER);
     }
     
     @Override
     public Set<Edge<V,E>> copyOutgoingEdges(V v) {
         if (!allVertices.contains(v))
             throw new IllegalArgumentException("No such vertex in this graph!");
-        return new LinkedHashSet<>(outEdges.get(v));
+        return new MatcherLinkedHashSet<>(outEdges.get(v), EDGES_MATCHER);
     }
     
     @Override

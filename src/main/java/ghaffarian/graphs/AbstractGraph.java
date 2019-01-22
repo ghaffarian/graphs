@@ -26,6 +26,16 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
     protected Map<V, Set<Edge<V,E>>> inEdges;
     protected Map<V, Set<Edge<V,E>>> outEdges;
     
+    /**
+     * Returns the <tt>Matcher</tt> object for matching vertices of this graph.
+     */
+    protected abstract Matcher<V> getVertexMatcher();
+    
+    /**
+     * Returns the <tt>Matcher</tt> object for matching edges of this graph.
+     */
+    protected abstract Matcher<Edge<V,E>> getEdgesMatcher();
+    
     @Override
     public int vertexCount() {
         return allVertices.size();
