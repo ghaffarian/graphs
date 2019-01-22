@@ -37,4 +37,22 @@ public class Atom {
         hash = 37 * hash + Objects.hashCode(this.SYMB);
         return hash;
     }
+    
+    static class SymbolMatcher implements Matcher<Atom> {
+
+        @Override
+        public boolean equals(Atom o1, Atom o2) {
+            if (o1 == null || o2 == null)
+                return false;
+            if (o1 == o2)
+                return true;
+            return (o1.SYMB).equals(o2.SYMB);
+        }
+
+        @Override
+        public int hashCode(Atom o) {
+            return o.SYMB.hashCode();
+        }
+
+    }
 }
