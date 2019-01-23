@@ -103,7 +103,7 @@ public class MatcherLinkedHashMap<K, V> implements Map<K, V> {
     public Set<Map.Entry<K, V>> entrySet() {
         Set<Map.Entry<K, V>> entries = new LinkedHashSet<>(map.size());
         for (Holder<K> k: map.keySet())
-            entries.add(new AbstractMap.SimpleImmutableEntry<>((K) k, map.get(k)));
+            entries.add(new AbstractMap.SimpleImmutableEntry<>(k.object, map.get(k)));
         return entries;
     }
 }
