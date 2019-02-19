@@ -37,10 +37,12 @@ public class Edge<V,E> {
     
     @Override
     public String toString() {
+        String src = (source == null ? "NULL" : source.toString());
+        String trg = (target == null ? "NULL" : target.toString());
         if (label == null || label.toString().trim().isEmpty())
-            return String.format("%s --> %s", source.toString(), target.toString());
+            return String.format("%s --> %s", src, trg);
         else
-            return String.format("%s --(%s)-> %s", source.toString(), label.toString(), target.toString());
+            return String.format("%s --(%s)-> %s", src, label.toString(), trg);
     }
     
     @Override
