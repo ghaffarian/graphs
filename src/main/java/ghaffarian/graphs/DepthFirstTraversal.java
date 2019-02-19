@@ -55,11 +55,14 @@ public class DepthFirstTraversal<V,E> implements GraphTraversal<V, E> {
     @Override
     public Edge<V, E> nextEdge() {
         if (visiting.isEmpty())
-            throw new NoSuchElementException("No more vertices to traverse!");
+            throw new NoSuchElementException("No more edges to traverse!");
         next();
-        if (nextEdge.source == null)
+        if (nextEdge.source == null) {
             // first call to next() (ie. edge is dummy); do next() one more time
+            if (visiting.isEmpty()) // handle the single-vertex-graph case
+                return new Edge<>(null, null, START_VERTEX);
             next();
+        }
         return nextEdge;
     }
 
