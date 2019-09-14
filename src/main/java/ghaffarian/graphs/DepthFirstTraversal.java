@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class DepthFirstTraversal<V,E> implements GraphTraversal<V, E> {
     
-    public final AbstractGraph<V,E> GRAPH;
+    public final AbstractPropertyGraph<V,E> GRAPH;
     public final V START_VERTEX;
     
     private V nextVertex;
@@ -27,7 +27,7 @@ public class DepthFirstTraversal<V,E> implements GraphTraversal<V, E> {
      * Construct a new depth-first traversal 
      * on the given graph, starting from the given vertex.
      */
-    public DepthFirstTraversal(AbstractGraph graph, V start) {
+    public DepthFirstTraversal(AbstractPropertyGraph graph, V start) {
         GRAPH = graph;
         nextEdge = null;
         nextVertex = null;

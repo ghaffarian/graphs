@@ -12,7 +12,7 @@ import java.util.Set;
  * 
  * @author Seyed Mohammad Ghaffarian
  */
-public class Digraph<V, E> extends AbstractGraph<V, E> {
+public class Digraph<V, E> extends AbstractPropertyGraph<V, E> {
     
     protected final Matcher<V> VERTEX_MATCHER;
     protected final Matcher<Edge<V, E>> EDGES_MATCHER;
@@ -49,7 +49,7 @@ public class Digraph<V, E> extends AbstractGraph<V, E> {
      * 
      * @param graph the Graph object to be copied
      */
-    public Digraph(AbstractGraph<V,E> graph) {
+    public Digraph(AbstractPropertyGraph<V,E> graph) {
         EDGES_MATCHER = graph.getEdgesMatcher();
         VERTEX_MATCHER = graph.getVertexMatcher();
         // copy all vertices and edges

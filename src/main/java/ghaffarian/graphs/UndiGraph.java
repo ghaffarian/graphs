@@ -11,7 +11,7 @@ import java.util.Set;
  * 
  * @author Seyed Mohammad Ghaffarian
  */
-public class UndiGraph<V, E> extends AbstractGraph<V, E> {
+public class UndiGraph<V, E> extends AbstractPropertyGraph<V, E> {
 
     protected final Matcher<V> VERTEX_MATCHER;
     protected final Matcher<Edge<V, E>> EDGES_MATCHER;
@@ -48,7 +48,7 @@ public class UndiGraph<V, E> extends AbstractGraph<V, E> {
      * 
      * @param graph the Graph object to be copied
      */
-    public UndiGraph(AbstractGraph<V,E> graph) {
+    public UndiGraph(AbstractPropertyGraph<V,E> graph) {
         EDGES_MATCHER = graph.getEdgesMatcher();
         VERTEX_MATCHER = graph.getVertexMatcher();
         // copy all vertices and edges

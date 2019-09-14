@@ -73,7 +73,7 @@ public interface Graph<V,E> {
      *
      * @return true if this graph was modified; otherwise false.
      */
-    public boolean addGraph(AbstractGraph<V, E> graph);
+    public boolean addGraph(AbstractPropertyGraph<V, E> graph);
 
     /**
      * Return the number of vertices in this graph.

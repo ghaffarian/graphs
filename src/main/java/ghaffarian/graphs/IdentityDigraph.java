@@ -42,7 +42,7 @@ public class IdentityDigraph<V,E> extends Digraph<V,E> {
      * 
      * @param graph the Graph object to be copied
      */
-    public IdentityDigraph(AbstractGraph<V,E> graph) {
+    public IdentityDigraph(AbstractPropertyGraph<V,E> graph) {
         // copy all vertices and edges
         allEdges = new IdentityLinkedHashSet<>(graph.allEdges);
         allVertices = new IdentityLinkedHashSet<>(graph.allVertices);

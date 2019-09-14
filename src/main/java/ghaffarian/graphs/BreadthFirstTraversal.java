@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class BreadthFirstTraversal<V,E> implements GraphTraversal<V, E> {
     
-    public final AbstractGraph<V,E> GRAPH;
+    public final AbstractPropertyGraph<V,E> GRAPH;
     public final V START_VERTEX;
     
     private V nextVertex;
@@ -27,7 +27,7 @@ public class BreadthFirstTraversal<V,E> implements GraphTraversal<V, E> {
      * Construct a new breadth-first traversal 
      * on the given graph, starting from the given vertex.
      */
-    public BreadthFirstTraversal(AbstractGraph graph, V start) {
+    public BreadthFirstTraversal(AbstractPropertyGraph graph, V start) {
         GRAPH = graph;
         nextEdge = null;
         nextVertex = null;
