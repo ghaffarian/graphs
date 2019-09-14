@@ -21,6 +21,8 @@ public class UndiGraph<V, E> extends AbstractPropertyGraph<V, E> {
      * This instance will use a default matcher.
      */
     public UndiGraph() {
+        super();
+        properties.put("directed", "false");
         EDGES_MATCHER = new DefaultMatcher<>();
         VERTEX_MATCHER = new DefaultMatcher<>();
         allEdges = new MatcherLinkedHashSet<>(32, EDGES_MATCHER);
@@ -34,6 +36,8 @@ public class UndiGraph<V, E> extends AbstractPropertyGraph<V, E> {
      * with the given <tt>Matcher</tt> objects for edges and vertices.
      */
     public UndiGraph(Matcher<V> vm, Matcher<Edge<V,E>> em) {
+        super();
+        properties.put("directed", "false");
         EDGES_MATCHER = em;
         VERTEX_MATCHER = vm;
         allEdges = new MatcherLinkedHashSet<>(32, EDGES_MATCHER);
@@ -49,6 +53,7 @@ public class UndiGraph<V, E> extends AbstractPropertyGraph<V, E> {
      * @param graph the Graph object to be copied
      */
     public UndiGraph(AbstractPropertyGraph<V,E> graph) {
+        super(graph);
         EDGES_MATCHER = graph.getEdgesMatcher();
         VERTEX_MATCHER = graph.getVertexMatcher();
         // copy all vertices and edges

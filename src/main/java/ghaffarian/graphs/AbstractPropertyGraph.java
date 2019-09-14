@@ -37,6 +37,13 @@ public abstract class AbstractPropertyGraph<V,E> implements Graph<V,E> {
     }
     
     /**
+     * Copy constructor, which copies all properties of given graph.
+     */
+    public AbstractPropertyGraph(AbstractPropertyGraph graph) {
+        properties = new HashMap<>(graph.properties);
+    }
+    
+    /**
      * Check whether this graph has any property with given name.
      */
     public boolean hasProperty(String name) {
