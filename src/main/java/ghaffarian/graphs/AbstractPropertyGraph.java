@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -12,19 +13,64 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A generic abstract base class for labeled graphs.
+ * A generic abstract base class for labeled graphs; AKA property graphs.
  * In Graph-Theory, the mathematical definition of a graphs is 
  * a set of vertices and a set of edges where each edge connects two vertices.
- * A labeled graph includes some extra data associated with each vertex and edge.
+ * A labeled graph or property graph includes some extra data (properties) associated the graph.
+ * Nodes and edges in property graphs can have their own properties as well.
  * 
  * @author Seyed Mohammad Ghaffarian
  */
-public abstract class AbstractGraph<V,E> implements Graph<V,E> {
+public abstract class AbstractPropertyGraph<V,E> implements Graph<V,E> {
 
     protected Set<V> allVertices;
     protected Set<Edge<V,E>> allEdges;
     protected Map<V, Set<Edge<V,E>>> inEdges;
     protected Map<V, Set<Edge<V,E>>> outEdges;
+    protected final Map<String, String> properties;
+    
+    /**
+     * Default constructor for this abstract class.
+     */
+    public AbstractPropertyGraph() {
+        properties = new HashMap<>();
+    }
+    
+    /**
+     * Check whether this graph has any property with given name.
+     */
+    public boolean hasProperty(String name) {
+        return properties.containsKey(name);
+    }
+    
+    /**
+     * Returns the value of the given property name.
+     * Returns null if no such property is set for this graph.
+     */
+    public String getProperty(String name) {
+        return properties.get(name);
+    }
+    
+    /**
+     * Put given value with given name as a property for this graph.
+     * 
+     * @param name  name of the property to be set
+     * @param value value of the property to be set
+     * @return previous value for this property; null if there was no previous value
+     */
+    public String putProperty(String name, String value) {
+        return properties.put(name, value);
+    }
+    
+    /**
+     * Remove the property with given name from this graph.
+     * 
+     * @param name name of the property to be removed
+     * @return previous value of this property (null, if no value)
+     */
+    public String removeProperty(String name) {
+        return properties.remove(name);
+    }
     
     /**
      * Returns the <tt>Matcher</tt> object for matching vertices of this graph.
@@ -67,7 +113,7 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
     }
     
     @Override
-    public boolean addGraph(AbstractGraph<V,E> graph) {
+    public boolean addGraph(AbstractPropertyGraph<V,E> graph) {
         boolean modified = false;
         for (V vrtx: graph.allVertices)
             modified |= addVertex(vrtx);
@@ -217,7 +263,7 @@ public abstract class AbstractGraph<V,E> implements Graph<V,E> {
             return false;
         if (!Objects.equals(getClass(), obj.getClass()))
             return false;
-        final AbstractGraph<V,E> other = (AbstractGraph<V, E>) obj;
+        final AbstractPropertyGraph<V,E> other = (AbstractPropertyGraph<V, E>) obj;
         return  this.isDirected() == other.isDirected() && 
                 this.vertexCount() == other.vertexCount() && 
                 this.edgeCount() == other.edgeCount() && 
