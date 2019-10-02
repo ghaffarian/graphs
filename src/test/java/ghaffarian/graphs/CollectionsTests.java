@@ -37,7 +37,6 @@ public class CollectionsTests {
         assertFalse(identitySet.add(hydrogen2));
         assertTrue(identitySet.contains(hydrogen2));
         assertEquals(3, identitySet.size());
-        System.out.println("I'M AWSOME!  B)");
     }
     
     @Test
@@ -59,7 +58,6 @@ public class CollectionsTests {
         assertTrue(matcherSet.contains(hydrogen2));
         //
         assertEquals(2, matcherSet.size());
-        System.out.println("I'M AWSOME!  B)");
     }
     
     @Test
@@ -83,7 +81,6 @@ public class CollectionsTests {
         assertFalse(matcherSet.add(hydrogen2));
         assertTrue(matcherSet.contains(hydrogen2));
         assertEquals(3, matcherSet.size());
-        System.out.println("I'M AWSOME!  B)");
     }
     
     @Test
@@ -108,7 +105,6 @@ public class CollectionsTests {
         assertTrue(matcherSet.contains(hydrogen));
         //
         assertEquals(2, matcherSet.size());
-        System.out.println("I'M AWSOME!  B)");
     }
 
 }
