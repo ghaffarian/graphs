@@ -4,9 +4,9 @@ package ghaffarian.graphs;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -100,23 +100,23 @@ public abstract class AbstractPropertyGraph<V,E> implements Graph<V,E> {
     }
     
     @Override
-    public Enumeration<Edge<V,E>> enumerateAllEdges() {
-        return Collections.enumeration(allEdges);
+    public Iterator<Edge<V,E>> allEdgesIterator() {
+        return Collections.unmodifiableSet(allEdges).iterator();
     }
     
     @Override
-    public Enumeration<V> enumerateAllVertices() {
-        return Collections.enumeration(allVertices);
+    public Iterator<V> allVerticesIterator() {
+        return Collections.unmodifiableSet(allVertices).iterator();
     }
     
     @Override
-    public Enumeration<Edge<V,E>> enumerateIncomingEdges(V v) {
-        return Collections.enumeration(inEdges.get(v));
+    public Iterator<Edge<V,E>> incomingEdgesIterator(V v) {
+        return Collections.unmodifiableSet(inEdges.get(v)).iterator();
     }
     
     @Override
-    public Enumeration<Edge<V,E>> enumerateOutgoingEdges(V v) {
-        return Collections.enumeration(outEdges.get(v));
+    public Iterator<Edge<V,E>> outgoingEdgesIterator(V v) {
+        return Collections.unmodifiableSet(outEdges.get(v)).iterator();
     }
     
     @Override

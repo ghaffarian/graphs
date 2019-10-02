@@ -5,7 +5,7 @@ import ghaffarian.graphs.utils.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -39,9 +39,9 @@ public class GraphWriter {
             dot.println("  // graph-vertices");
 			Map<V, String> nodeNames = new LinkedHashMap<>();
 			int nodeCounter = 1;
-            Enumeration<V> vertices = graph.enumerateAllVertices();
-			while (vertices.hasMoreElements()) {
-                V node = vertices.nextElement();
+            Iterator<V> vertices = graph.allVerticesIterator();
+			while (vertices.hasNext()) {
+                V node = vertices.next();
 				String name = "v" + nodeCounter++;
 				nodeNames.put(node, name);
 				StringBuilder label = new StringBuilder("  [label=\"");
@@ -50,9 +50,9 @@ public class GraphWriter {
 				dot.println("  " + name + label.append("\"];").toString());
 			}
 			dot.println("  // graph-edges");
-            Enumeration<Edge<V,E>> edges = graph.enumerateAllEdges();
-			while (edges.hasMoreElements()) {
-                Edge<V,E> edge = edges.nextElement();
+            Iterator<Edge<V,E>> edges = graph.allEdgesIterator();
+			while (edges.hasNext()) {
+                Edge<V,E> edge = edges.next();
 				String src = nodeNames.get(edge.source);
 				String trg = nodeNames.get(edge.target);
 				if (edge.label == null || edge.label.toString().trim().isEmpty())

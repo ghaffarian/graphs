@@ -1,7 +1,7 @@
 /*** In The Name of Allah ***/
 package ghaffarian.graphs;
 
-import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -86,14 +86,14 @@ public interface Graph<V,E> {
     public int edgeCount();
 
     /**
-     * Return an enumeration over all edges of the graph.
+     * Return a read-only iterator over all edges of the graph.
      */
-    public Enumeration<Edge<V, E>> enumerateAllEdges();
+    public Iterator<Edge<V, E>> allEdgesIterator();
 
     /**
-     * Return an enumeration over all vertices of the graph.
+     * Return a read-only iterator over all vertices of the graph.
      */
-    public Enumeration<V> enumerateAllVertices();
+    public Iterator<V> allVerticesIterator();
 
     /**
      * Return a copy of the set of all edges in this graph.
@@ -110,14 +110,14 @@ public interface Graph<V,E> {
     public Set<V> copyVertexSet();
 
     /**
-     * Return an enumeration over the set of incoming edges to the given vertex.
+     * Return a read-only iterator over the set of incoming edges to the given vertex.
      */
-    public Enumeration<Edge<V, E>> enumerateIncomingEdges(V v);
+    public Iterator<Edge<V, E>> incomingEdgesIterator(V v);
 
     /**
-     * Return an enumeration over the set of outgoing edges from the given vertex.
+     * Return a read-only iterator over the set of outgoing edges from the given vertex.
      */
-    public Enumeration<Edge<V, E>> enumerateOutgoingEdges(V v);
+    public Iterator<Edge<V, E>> outgoingEdgesIterator(V v);
 
     /**
      * Return a copy of the set of incoming edges to the given vertex.
