@@ -6,7 +6,7 @@
 
   <groupId>ghaffarian</groupId>
   <artifactId>graphs</artifactId>
-  <version>2.2.0</version>
+  <version>2.5.0</version>
 
   <name>Graphs</name>
   <packaging>jar</packaging>
